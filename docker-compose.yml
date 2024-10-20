@@ -24,58 +24,17 @@ services:
             #- "traefik.http.routers.http${APP_URL}.entrypoints=web"
             - "traefik.http.routers.http${APP_URL}.rule=Host(`${APP_DOMAIN}`)"
         networks:
+            - laravel
             - r-p
-
-        # environment:
-        #     - "SERVER_NAME=:80"
-        # labels:
-        #     - "traefik.enable=true"
-        #     - "traefik.docker.network=traefik"
-        #     - "traefik.http.routers.larafranken.rule=Host(`larafranken.trouvetatable.fr`)"
-        #     - "traefik.http.services.larafranken.loadbalancer.server.port=80"
-        #     - "traefik.http.routers.larafranken.entrypoints=websecure"
-        #     - "traefik.http.routers.larafranken.tls=true"
-        #     - "traefik.http.routers.larafranken.tls.certresolver=myresolver"
+        environment:
+            - "SERVER_NAME=:80"
         ports:
             - "87:80"
             - '448:443' 
-            - '448:443/udp' 
-        # depends_on:
-        #     mysql:
-        #         condition: service_healthy
-#     mysql:
-#         image: mysql:8.0
-#         restart: always
-#         environment:
-#             - MYSQL_DATABASE=vigilant
-#             - MYSQL_ROOT_PASSWORD=password
-#         volumes:
-#             - database:/var/lib/mysql
-#         networks:
-#             - traefik
-#         healthcheck:
-#             test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
-#             interval: 10s
-#             timeout: 20s
-#             retries: 10
-
-
-#     redis:
-#         image: redis:7
-#         volumes:
-#             - redis:/data
-#         networks:
-#             - vigilant
-#         healthcheck:
-#             test: [ "CMD", "redis-cli", "ping" ]
-#         depends_on:
-#             - traefik
+            - '448:443/udp'
 
 networks:
+    laravel:
+        driver: bridge
     r-p:
         external: true
-
-# volumes:
-#     public:
-#     database:
-#     redis:
