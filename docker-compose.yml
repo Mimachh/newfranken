@@ -4,10 +4,10 @@ services:
             context: .
             dockerfile: Dockerfile
         container_name: ${APP_NAME}
-        # volumes:
-        #     - type: bind
-        #       source: ./.env
-        #       target: /app/.env
+        volumes:
+            - type: bind
+              source: ./.env
+              target: /app/.env
         #     - ./storage:/app/storage
         #     - public:/app/public
         restart: always
