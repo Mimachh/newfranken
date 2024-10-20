@@ -38,7 +38,7 @@ services:
         #     - "traefik.http.routers.larafranken.tls=true"
         #     - "traefik.http.routers.larafranken.tls.certresolver=myresolver"
         ports:
-           - "80:80"
+           - "87:80"
 
         # depends_on:
         #     mysql:
