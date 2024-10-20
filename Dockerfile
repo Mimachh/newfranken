@@ -35,8 +35,8 @@
 # # ENV CHROME_PATH=/usr/bin/chromium
 # ENV OCTANE_SERVER=frankenphp
 
-# CMD ["php", "artisan", "octane:start", "--server=frankenphp", "--port=80", "--admin-port=81"]
-# # ENTRYPOINT ["sh", "/app/docker/entrypoint.sh"]
+# # CMD ["php", "artisan", "octane:frankenphp", "--port=80", "--admin-port=2019", "--host=0.0.0.0"]
+# ENTRYPOINT ["sh", "/app/docker/entrypoint.sh"]
 
       
 # Étape 1: Build Composer (PHP dependencies)

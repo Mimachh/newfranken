@@ -8,8 +8,7 @@ services:
             - type: bind
               source: ./.env
               target: /app/.env
-        #     - ./storage:/app/storage
-        #     - public:/app/public
+            - .:/app
         restart: always
         working_dir: /app
         labels:
@@ -38,8 +37,9 @@ services:
         #     - "traefik.http.routers.larafranken.tls=true"
         #     - "traefik.http.routers.larafranken.tls.certresolver=myresolver"
         ports:
-           - "87:80"
-
+            - "87:80"
+            - '448:443' 
+            - '448:443/udp' 
         # depends_on:
         #     mysql:
         #         condition: service_healthy
