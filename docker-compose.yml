@@ -1,0 +1,81 @@
+services:
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: ${APP_NAME}
+        # volumes:
+        #     - type: bind
+        #       source: ./.env
+        #       target: /app/.env
+        #     - ./storage:/app/storage
+        #     - public:/app/public
+        restart: always
+        working_dir: /app
+        labels:
+            - "traefik.enable=true"
+            - "traefik.docker.network=r-p"
+            - "traefik.http.routers.${APP_URL}.rule=Host(`${APP_DOMAIN}`)"
+            - "traefik.http.routers.${APP_URL}.entrypoints=websecure,web"
+            - "traefik.http.routers.${APP_URL}.tls=true"
+            - "traefik.http.routers.${APP_URL}.tls.certresolver=myresolver"
+            - "traefik.http.services.${APP_URL}.loadbalancer.server.port=80"
+            - "traefik.http.middlewares.autodetect.contenttype=true"
+            #- "traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto=https"
+            #- "traefik.http.routers.http${APP_URL}.entrypoints=web"
+            - "traefik.http.routers.http${APP_URL}.rule=Host(`${APP_DOMAIN}`)"
+        networks:
+            - r-p
+
+        # environment:
+        #     - "SERVER_NAME=:80"
+        # labels:
+        #     - "traefik.enable=true"
+        #     - "traefik.docker.network=traefik"
+        #     - "traefik.http.routers.larafranken.rule=Host(`larafranken.trouvetatable.fr`)"
+        #     - "traefik.http.services.larafranken.loadbalancer.server.port=80"
+        #     - "traefik.http.routers.larafranken.entrypoints=websecure"
+        #     - "traefik.http.routers.larafranken.tls=true"
+        #     - "traefik.http.routers.larafranken.tls.certresolver=myresolver"
+        ports:
+           - "80:80"
+
+        # depends_on:
+        #     mysql:
+        #         condition: service_healthy
+#     mysql:
+#         image: mysql:8.0
+#         restart: always
+#         environment:
+#             - MYSQL_DATABASE=vigilant
+#             - MYSQL_ROOT_PASSWORD=password
+#         volumes:
+#             - database:/var/lib/mysql
+#         networks:
+#             - traefik
+#         healthcheck:
+#             test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+#             interval: 10s
+#             timeout: 20s
+#             retries: 10
+
+
+#     redis:
+#         image: redis:7
+#         volumes:
+#             - redis:/data
+#         networks:
+#             - vigilant
+#         healthcheck:
+#             test: [ "CMD", "redis-cli", "ping" ]
+#         depends_on:
+#             - traefik
+
+networks:
+    r-p:
+        external: true
+
+# volumes:
+#     public:
+#     database:
+#     redis:
